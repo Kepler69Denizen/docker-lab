@@ -1,0 +1,84 @@
+
+services:
+
+    api:
+        container_name: iris_api_container
+        build: .
+        ports:
+            - 8000:8000
+        volumes:
+            - model_data:/data # named volume для файла модели
+        networks:
+            - iisapp
+        environment:
+            DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_NAME}
+        depends_on:
+            db:
+                condition: service_healthy
+        restart: unless-stopped
+
+    db:
+        container_name: iris_postgres_container
+        image: postgres:18.6-alpine3.24
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_NAME}
+        volumes:
+            - postgres_data:/var/lib/postgresql
+        networks:
+            - iisapp
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+            interval: 5s
+            timeout: 5s
+            retries: 3
+        restart: unless-stopped
+
+    pgadmin:
+        container_name: iris_pgadmin_container
+        image: dpage/pgadmin4:9.19.0
+        environment:
+            PGADMIN_DEFAULT_EMAIL: admin@mymail.ru
+            PGADMIN_DEFAULT_PASSWORD: ${POSTGRES_PASSWORD}
+            PGADMIN_CONFIG_SERVER_MODE: 'False'
+        volumes:
+            - pgadmin:/var/lib/pgadmin
+        ports:
+            - 80:80
+        networks:
+            - iisapp
+        depends_on:
+            db:
+                condition: service_healthy
+        restart: unless-stopped
+
+    grafana:
+        container_name: iris_grafana_container
+        image: grafana/grafana:13.0.2
+        ports:
+            - 3000:3000
+        environment:
+            GF_SECURITY_ADMIN_USER: ${GRAFANA_PASSWORD}
+            GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
+        volumes:
+            - grafana_storage:/var/lib/grafana
+        networks:
+            - iisapp
+        depends_on:
+            - db
+            - api
+        restart: unless-stopped
+
+
+volumes:
+    model_data: # данные модели ML
+    postgres_data: # данные СУБД
+    pgadmin: # данные pgadmin
+    grafana_storage: # данные grafana
+
+
+networks:
+    iisapp:
+        driver: bridge
+

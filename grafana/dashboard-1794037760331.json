@@ -1,0 +1,321 @@
+{
+    "apiVersion": "dashboard.grafana.app/v2",
+    "kind": "Dashboard",
+    "metadata": {
+        "name": "adq8jgb",
+        "namespace": "default",
+        "uid": "27d5c349-e35e-4819-bb36-62d0e420e3e6",
+        "resourceVersion": "1794037577210994",
+        "generation": 2,
+        "creationTimestamp": "2026-11-07T07:03:17Z",
+        "labels": {
+            "grafana.app/deprecatedInternalID": "2270654021345280"
+        },
+        "annotations": {
+            "grafana.app/createdBy": "user:bg3hpx8e2ymf4a",
+            "grafana.app/folder": "",
+            "grafana.app/saved-from-ui": "Grafana v13.0.2 (3fcdbc5a)",
+            "grafana.app/updatedBy": "user:bg3hpx8e2ymf4a",
+            "grafana.app/updatedTimestamp": "2026-11-07T07:46:17Z"
+        }
+    },
+    "spec": {
+        "annotations": [
+            {
+                "kind": "AnnotationQuery",
+                "spec": {
+                    "query": {
+                        "kind": "DataQuery",
+                        "group": "grafana",
+                        "version": "v0",
+                        "datasource": {
+                            "name": "-- Grafana --"
+                        },
+                        "spec": {}
+                    },
+                    "enable": true,
+                    "hide": true,
+                    "iconColor": "rgba(0, 211, 255, 1)",
+                    "name": "Annotations & Alerts",
+                    "builtIn": true
+                }
+            }
+        ],
+        "cursorSync": "Off",
+        "editable": true,
+        "elements": {
+            "panel-1": {
+                "kind": "Panel",
+                "spec": {
+                    "id": 1,
+                    "title": "Количество записей ",
+                    "description": "",
+                    "links": [],
+                    "data": {
+                        "kind": "QueryGroup",
+                        "spec": {
+                            "queries": [
+                                {
+                                    "kind": "PanelQuery",
+                                    "spec": {
+                                        "query": {
+                                            "kind": "DataQuery",
+                                            "group": "grafana-postgresql-datasource",
+                                            "version": "v0",
+                                            "datasource": {
+                                                "name": "bg3hym1hx3e9sb"
+                                            },
+                                            "spec": {
+                                                "dataset": "iisdb",
+                                                "editorMode": "code",
+                                                "format": "table",
+                                                "rawQuery": true,
+                                                "rawSql": "SELECT COUNT(*), now() AS time FROM iris_predicts",
+                                                "sql": {
+                                                    "columns": [
+                                                        {
+                                                            "parameters": [],
+                                                            "type": "function"
+                                                        }
+                                                    ],
+                                                    "groupBy": [
+                                                        {
+                                                            "property": {
+                                                                "type": "string"
+                                                            },
+                                                            "type": "groupBy"
+                                                        }
+                                                    ],
+                                                    "limit": 50
+                                                },
+                                                "table": "iris_predicts"
+                                            }
+                                        },
+                                        "refId": "A",
+                                        "hidden": false
+                                    }
+                                }
+                            ],
+                            "transformations": [],
+                            "queryOptions": {}
+                        }
+                    },
+                    "vizConfig": {
+                        "kind": "VizConfig",
+                        "group": "stat",
+                        "version": "13.0.2",
+                        "spec": {
+                            "options": {
+                                "colorMode": "value",
+                                "graphMode": "area",
+                                "justifyMode": "auto",
+                                "orientation": "auto",
+                                "percentChangeColorMode": "standard",
+                                "reduceOptions": {
+                                    "calcs": [
+                                        "lastNotNull"
+                                    ],
+                                    "fields": "",
+                                    "values": false
+                                },
+                                "showPercentChange": false,
+                                "textMode": "auto",
+                                "wideLayout": true
+                            },
+                            "fieldConfig": {
+                                "defaults": {
+                                    "thresholds": {
+                                        "mode": "absolute",
+                                        "steps": [
+                                            {
+                                                "value": 0,
+                                                "color": "green"
+                                            },
+                                            {
+                                                "value": 80,
+                                                "color": "red"
+                                            }
+                                        ]
+                                    },
+                                    "color": {
+                                        "mode": "thresholds"
+                                    }
+                                },
+                                "overrides": []
+                            }
+                        }
+                    }
+                }
+            },
+            "panel-2": {
+                "kind": "Panel",
+                "spec": {
+                    "id": 2,
+                    "title": "Количество активных соединений",
+                    "description": "",
+                    "links": [],
+                    "data": {
+                        "kind": "QueryGroup",
+                        "spec": {
+                            "queries": [
+                                {
+                                    "kind": "PanelQuery",
+                                    "spec": {
+                                        "query": {
+                                            "kind": "DataQuery",
+                                            "group": "grafana-postgresql-datasource",
+                                            "version": "v0",
+                                            "datasource": {
+                                                "name": "bg3hym1hx3e9sb"
+                                            },
+                                            "spec": {
+                                                "dataset": "iisdb",
+                                                "editorMode": "code",
+                                                "format": "table",
+                                                "rawQuery": true,
+                                                "rawSql": "SELECT count(*) \r\nFROM pg_stat_activity \r\nWHERE state = 'active';",
+                                                "sql": {
+                                                    "columns": [
+                                                        {
+                                                            "parameters": [],
+                                                            "type": "function"
+                                                        }
+                                                    ],
+                                                    "groupBy": [
+                                                        {
+                                                            "property": {
+                                                                "type": "string"
+                                                            },
+                                                            "type": "groupBy"
+                                                        }
+                                                    ],
+                                                    "limit": 50
+                                                }
+                                            }
+                                        },
+                                        "refId": "A",
+                                        "hidden": false
+                                    }
+                                }
+                            ],
+                            "transformations": [],
+                            "queryOptions": {}
+                        }
+                    },
+                    "vizConfig": {
+                        "kind": "VizConfig",
+                        "group": "stat",
+                        "version": "13.0.2",
+                        "spec": {
+                            "options": {
+                                "colorMode": "value",
+                                "graphMode": "area",
+                                "justifyMode": "auto",
+                                "orientation": "auto",
+                                "percentChangeColorMode": "standard",
+                                "reduceOptions": {
+                                    "calcs": [
+                                        "lastNotNull"
+                                    ],
+                                    "fields": "",
+                                    "values": false
+                                },
+                                "showPercentChange": false,
+                                "textMode": "auto",
+                                "wideLayout": true
+                            },
+                            "fieldConfig": {
+                                "defaults": {
+                                    "thresholds": {
+                                        "mode": "absolute",
+                                        "steps": [
+                                            {
+                                                "value": 0,
+                                                "color": "green"
+                                            },
+                                            {
+                                                "value": 80,
+                                                "color": "red"
+                                            }
+                                        ]
+                                    },
+                                    "color": {
+                                        "mode": "thresholds"
+                                    }
+                                },
+                                "overrides": []
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "layout": {
+            "kind": "GridLayout",
+            "spec": {
+                "items": [
+                    {
+                        "kind": "GridLayoutItem",
+                        "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 12,
+                            "height": 8,
+                            "element": {
+                                "kind": "ElementReference",
+                                "name": "panel-1"
+                            }
+                        }
+                    },
+                    {
+                        "kind": "GridLayoutItem",
+                        "spec": {
+                            "x": 12,
+                            "y": 0,
+                            "width": 12,
+                            "height": 8,
+                            "element": {
+                                "kind": "ElementReference",
+                                "name": "panel-2"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "links": [],
+        "liveNow": false,
+        "preload": false,
+        "tags": [],
+        "timeSettings": {
+            "timezone": "browser",
+            "from": "2026-11-07T06:31:50.897Z",
+            "to": "2026-11-07T07:31:50.897Z",
+            "autoRefresh": "",
+            "autoRefreshIntervals": [
+                "5s",
+                "10s",
+                "30s",
+                "1m",
+                "5m",
+                "15m",
+                "30m",
+                "1h",
+                "2h",
+                "1d"
+            ],
+            "hideTimepicker": false,
+            "fiscalYearStartMonth": 0
+        },
+        "title": "postgres dashboard",
+        "variables": [],
+        "preferences": {
+            "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                    "items": []
+                }
+            }
+        }
+    }
+}
