@@ -59,7 +59,7 @@ services:
         ports:
             - 3000:3000
         environment:
-            GF_SECURITY_ADMIN_USER: ${GRAFANA_PASSWORD}
+            GF_SECURITY_ADMIN_USER: ${GRAFANA_USER}
             GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
         volumes:
             - grafana_storage:/var/lib/grafana
